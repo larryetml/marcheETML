@@ -1,3 +1,9 @@
+<!-- 
+    ETML
+    Auteur : Larry Lam
+    Date : 09.05.19
+    Description : Page index qui gère l'affichage des vues en fonction de l'url
+-->
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -72,33 +78,35 @@
                             $mainController->displayDetails($mainController->getId());
                             break;
                         case 'poste':
-                            $posteController = $mainController->initPoste();
-
-                            // $step = ((isset($_GET['step'])) ? $_GET['step'] : '1');
-
-                            // switch($step)
-                            // {
-                            //     case '1':
-                                    
-                            //         break;
-                            //     case '2':
-                            //         break;
-                            //     case '3':
-                            //         break;
-                            //     default:
-                            //         break;
-                            // }
-
-                            var_dump($_POST);
-                            if(isset($_POST['action']) || isset($_POST['posteName']))
+                            $step = ((isset($_POST['step'])) ? $_POST['step'] : '1');
+                            switch($step)
                             {
-                                $mainController->displayPosteCollaborator($posteController);
-                            }elseif(!isset($_POST['posteName']))
-                            {
-                                $mainController->displayPoste();
+                                case 1:
+                                    $mainController->displayPoste();
+                                    break;
+                                case 2:
+                                    if($mainController->checkIfPosteAlreadyExists($_POST['posteName']))
+                                    {
+                                        $_SESSION['step'] = 1;
+                                        unset($_SESSION['posteName']);
+                                        header("Location: index.php?page=poste&error=1");
+                                    }else
+                                    {
+                                        $mainController->displayPosteCollaborator();
+                                    }
+                                    break;
+                                case 3:
+                                    $mainController->createPoste();
+                                    $mainController->displayHome();
+                                    break;
+                                default:
+                                    $mainController->displayPoste();
+                                    break;
                             }
-                            
-
+                            echo 'POST';
+                            var_dump($_POST);
+                            echo 'SESSION';
+                            var_dump($_SESSION);
                             break;
                         case 'register';
                             $mainController->displayRegister();

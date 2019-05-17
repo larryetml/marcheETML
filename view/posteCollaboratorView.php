@@ -1,33 +1,43 @@
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
-<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<!-- 
+    ETML
+    Auteur : Larry Lam
+    Date : 16.05.19
+    Description : 2ème vue pour la création d'un poste, elle affiche la liste des collaborateurs afin de pouvoir les assigner à ce dernier.
+-->
+<div class="row mb-3 mt-5">
+    <div class="col-sm-6 mx-auto">
+    <a href="index.php" class="link-back">
+        <i class="fas fa-long-arrow-alt-left"></i> Retour
+    </div>  
+</a>
+</div>
+
+<div class="row justify-content-center mb-3">
+        <h1>Créer un poste</h1>
+</div>
+<div class="row justify-content-center">
+<!-- Todo ajouter nom du poste dynamiquement -->
+        <h4>Mon poste 1</h4>
+</div>
 <div class="scrolling-wrapper">
+<form action="index.php?page=poste" method="post" id="form_collaborators">
 <table id="tablestudents" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>Prénom</th>
                 <th>Nom</th>
                 <th>Email</th>
-                <th class="no-sorting">Section</th>
-                <th class="no-sorting"></th>
+                <th>Section</th>
+                <th class="no-sorting">Assigner ?</th>
             </tr>
         </thead>
         <tbody>
 
         <?php 
 
-        var_dump($collaborators);
-        if(isset($_GET['id']) && isset($_GET['action']))
-        {
-            echo ($_GET['id'].' + '.$_GET['action']);
-        }
-        var_dump($_POST);
-        if(isset($_POST['collaborators']))
-        {
-
-        }
-
+        // var_dump($collaborators);
         echo('<pre>');
+
         foreach($collaborators as $collaborator)
         {
 
@@ -40,80 +50,34 @@
                     <td class="text-center">
                     ';
                     echo'
-                        <a href="index.php?page=poste&action=add&id='.$collaborator['idCollaborator'].'" ><i class="fas fa-user-plus"></i></a>
-                        <a href="#" class="red"><i class="fas fa-user-minus"></i></a>
+                        <div class="checkbox mt-2">
+                            <label style="font-size: 2em">
+                                <input type="checkbox" name="assignedCollaborators[]" value="'.$collaborator['idCollaborator'].'" form="form_collaborators">
+                                <span class="cr"><i class="cr-icon fa fa-check color-primary"></i></span>
+                            </label>
+                        </div>
                     </td>
             </tr>
             ';
         }
-        ?>
 
+        // <a href="index.php?page=poste&action=add&id='.$collaborator['idCollaborator'].'" ><i class="fas fa-user-plus"></i></a>
+                    // <a href="#" class="red"><i class="fas fa-user-minus"></i></a>
+        ?>        
         <tfoot>
             <tr>
                 <th>Prénom</th>
                 <th>Nom</th>
                 <th>Email</th>
-                <th class="no-sorting">Section</th>
-                <th class="no-sorting"></th>
+                <th>Section</th>
+                <th class="no-sorting">Assigner ?</th>
             </tr>
         </tfoot>
     </table>
+        <input type="hidden" id="step" value="3" name="step" form="form_collaborators">
+        <input type="submit" value="Terminer" form="form_collaborators" class="btn btn-primary float-right my-5">
+    </form>
 
-    <!-- <ul class="list-group">
-            <li class="list-group-item"><h5 class="modal-title">Modal title</h5></li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Morbi leo risus</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-        </ul> -->
-        <br>
-
-<!-- 
-        <br>
-        <div class="card w-50">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col text-left">
-                        <h5 class="modal-title">Poste 2</h5>
-                    </div>
-                    <div class="col text-right pt-1">
-                        <a href="#"><i class="fas fa-pen" style="font-size:15px"></i></a>
-                        <a href="#" class="ml-2"><i class="fas fa-times" style="font-size:18px"></i></a>
-                    </div>
-                </div>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <div class="row">
-                        <div class="col text-left">Lylah Aldred</div>
-                        <div class="col text-right font-weight-bold">Informatique</div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <br>
-        <table class="table table-bordered">
-  <thead>
-    <tr class="card-header">
-      <th scope="col" colspan="2" style="border-right:transparent;">Poste 1</th>
-      <td class="text-right" style="border-left:transparent;">
-        <a href="#"><i class="fas fa-pen" style="font-size:15px"></i></a>
-        <a href="#" class="ml-2"><i class="fas fa-times" style="font-size:18px"></i></a></td>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-  </tbody>
-</table> -->
 </div>
     <script>
     function deletestudent(idstudent, studentname)

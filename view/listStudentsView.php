@@ -1,6 +1,9 @@
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
-<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<!-- 
+    ETML
+    Auteur : Larry Lam
+    Date : 10.05.19
+    Description : Affichage de la liste de tous les élèves
+-->
 <div class="scrolling-wrapper">
     <div class="py-4 text-center">
     <h1>Liste des élèves</h1>

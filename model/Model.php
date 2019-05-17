@@ -23,6 +23,15 @@ class Model extends Database{
         return $this->executeOnly('DELETE * FROM `t_product` WHERE `t_product`.`idProduct` = '.$idProduct.'');
     }
 
+    public function createPoste($posteName)
+    {
+        return $this->executeOnly('INSERT INTO `t_poste` (`idPoste`, `posName`) VALUES (NULL, \''.$posteName.'\')');
+    }
+    public function assignUserToPoste($collaborators, $posteId)
+    {
+        return $this->executeOnly('');
+    }
+
     public function getStudentById($idStudent)
     {
         return $this->fetchSingle('SELECT * FROM `t_student`, `t_class`, `t_section` WHERE `t_student`.`fkClass` = `t_class`.`idClass` AND `t_class`.`fkSection` = `t_section`.`idSection` AND `t_student`.`idStudent` = '.$idStudent.'');

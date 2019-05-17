@@ -1,38 +1,9 @@
-
-
-
-        <!-- <div class="row justify-content-center">
-            <div class="col-lg-6">
-                <div class="card">
-                    <div class="card-header">Connexion</div>
-                    <div class="card-body">
-                        <form action="index.php?page=log" method="POST">
-                            <div class="form-group row">
-                                <label for="email" class="col-lg-4 col-form-label text-lg-right">Email</label>
-                                <div class="col-lg-7">
-                                    <input type="text" id="email" class="form-control" name="email" required autofocus>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="password" class="col-lg-4 col-form-label text-lg-right">Mot de passe</label>
-                                <div class="col-lg-7">
-                                    <input type="password" id="password" class="form-control" name="password" required>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-lg-7 offset-lg-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        Connexion
-                                    </button>
-                                </div>
-                            </div>
-                    </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> -->
+<!-- 
+    ETML
+    Auteur : Larry Lam
+    Date : 13.05.19
+    Description : Vue de connexion
+-->
     <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card card-signin my-5">
           <div class="card-body pb-5">

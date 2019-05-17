@@ -20,7 +20,11 @@ class LoginController extends Controller
             if((password_verify($password, $user['usePassword'])))
             {
                 //Si les identifiants sont corrects définir la variable user
-                $_SESSION['user'] = $user;
+                $_SESSION['user']['idUser'] = $user['idUser'];
+                $_SESSION['user']['idCollaborator'] = $user['fkCollaborator'];
+                $_SESSION['user']['colName'] = $user['colName'];
+                $_SESSION['user']['useIsAdmin'] = $user['useIsAdmin'];
+                $_SESSION['user']['fkPoste'] = $user['fkPoste'];
                 //redigier sur la page principale
                 header("Location: index.php");
             }

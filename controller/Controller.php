@@ -1,6 +1,13 @@
 <?php
 require_once 'model/Model.php';
 
+/**
+ *  Description :
+ * @Parameter
+ * @Return
+ * @Exception
+ *  
+ */
 class Controller
 {
     protected $model;
@@ -58,7 +65,7 @@ class Controller
         }
     }
 
-    public function initPoste()
+    public function initPosteController()
     {
         $controller = new PosteController();
         return $controller;
@@ -68,10 +75,25 @@ class Controller
     {
         include('view/posteView.php');
     }
-    public function displayPosteCollaborator($controller)
+    public function displayPosteCollaborator()
     {
+        $controller = $this->initPosteController();
+        $_SESSION['posteName'] = (isset($_POST['posteName']) ? $_POST['posteName'] : '');
+
         $collaborators = $controller->getAllCollaborators();
         include('view/posteCollaboratorView.php');
+    }
+
+    public function checkIfPosteAlreadyExists($posteName)
+    {
+        // return $this->initPosteController()->checkIfPosteAlreadyExists($posteName);
+        return false;
+    }
+
+    public function createPoste()
+    {
+        $controller = $this->initPosteController();
+        $controller->createPoste();
     }
 
     public function displayListStudents()
@@ -97,7 +119,8 @@ class Controller
 
     public function disconnectUser()
     {
-        unset($_SESSION['user']);
+        // unset($_SESSION['user']);
+        session_destroy();
         header("Location: index.php");
     }
 

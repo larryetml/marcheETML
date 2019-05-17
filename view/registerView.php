@@ -1,3 +1,9 @@
+<!-- 
+    ETML
+    Auteur : Larry Lam
+    Date : 13.05.19
+    Description : Formulaire pour la création de compte
+-->
 <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-6">

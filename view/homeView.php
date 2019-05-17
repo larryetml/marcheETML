@@ -1,3 +1,10 @@
+<!-- 
+    ETML
+    Auteur : Larry Lam
+    Date : 13.05.19
+    Description : Page d'accueil d'un utilisateur (collaborateur)
+-->
+
 <div class="container">
 
     <div class="row justify-content-center mt-5 mb-3">

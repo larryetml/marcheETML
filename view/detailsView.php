@@ -1,4 +1,9 @@
-
+<!-- 
+    ETML
+    Auteur : Larry Lam
+    Date : 10.05.19
+    Description : Vue détaillée de l'élève
+-->
 <div class="row justify-content-center">
   <div class="col-md-8 text-center pb-4">
     <p class="text-left"><a href="index.php?page=students">< Retour</a></p>
