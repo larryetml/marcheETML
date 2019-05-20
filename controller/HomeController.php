@@ -16,6 +16,15 @@ class HomeController extends Controller
         return $this->model->getAllAssignedCollaboratorsByPosteId($id);
     }
 
+    public function getAllPostes()
+    {
+        return $this->model->getAllPostes();
+    }
+    public function getAllPostesWithCollaborators()
+    {
+        return $this->model->getAllPostesWithCollaborators();
+    }
+
 }
 
 ?>

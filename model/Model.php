@@ -17,19 +17,22 @@ class Model extends Database{
     {
         return $this->fetchAllAssoc('SELECT * FROM `t_collaborator`, `t_section` WHERE `t_collaborator`.`fkSection` = `t_section`.`idSection`');
     }
-
-    public function removeProductById($idProduct)
+    public function getAllUnassignedCollaborators()
     {
-        return $this->executeOnly('DELETE * FROM `t_product` WHERE `t_product`.`idProduct` = '.$idProduct.'');
+        return $this->fetchAllAssoc('SELECT * FROM `t_user` 
+        INNER JOIN `t_collaborator` ON `t_user`.`fkCollaborator` = `t_collaborator`.`idCollaborator` 
+        INNER JOIN `t_section` ON`t_collaborator`.`fkSection` = `t_section`.`idSection`
+        WHERE `t_user`.`fkPoste` IS NULL');
     }
 
     public function createPoste($posteName)
     {
         return $this->executeOnly('INSERT INTO `t_poste` (`idPoste`, `posName`) VALUES (NULL, \''.$posteName.'\')');
     }
-    public function assignUserToPoste($collaborators, $posteId)
+    public function assignUserToPoste($idUser, $posteId)
     {
-        return $this->executeOnly('');
+        echo ('UPDATE `t_user` SET `fkPoste` = \''.$posteId.'\' WHERE `t_user`.`idUser` = '.$idUser.'');
+        return $this->executeOnly('UPDATE `t_user` SET `fkPoste` = \''.$posteId.'\' WHERE `t_user`.`idUser` = '.$idUser.'');
     }
 
     public function getStudentById($idStudent)
@@ -55,14 +58,24 @@ class Model extends Database{
         WHERE `t_user`.`fkPoste` = \''.$idPoste.'\'');
     }
 
-    public function getConsts()
+    public function checkIfPosteAlreadyExists($posteName)
     {
-        return $this->fetchSingle('SELECT * FROM `t_const`');
+        return $this->fetchSingle('SELECT * FROM `t_poste` WHERE `t_poste`.`posName` = \''.$posteName.'\'');
     }
 
 
-
-
+    public function getAllPostes()
+    {
+        return $this->fetchAllAssoc('SELECT `idPoste`, `posName` FROM `t_poste`');
+    }
+    public function getAllPostesWithCollaborators()
+    {
+        return $this->fetchAllAssoc('SELECT `idPoste`,`posName`,`colName`,`colLastname`,`secName` 
+        FROM `t_user` 
+        INNER JOIN `t_collaborator` ON `t_user`.`fkCollaborator` = `t_collaborator`.`idCollaborator` 
+        INNER JOIN `t_section` ON `t_collaborator`.`fkSection` = `t_section`.`idSection`
+        INNER JOIN `t_poste` ON `t_user`.`fkPoste` = `t_poste`.`idPoste`');
+    }
 }
 
 ?>

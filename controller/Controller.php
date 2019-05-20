@@ -55,6 +55,34 @@ class Controller
 
         if($_SESSION['user']['useIsAdmin'] == 1)
         {
+            //Version avec le if dans la vue
+            $postes =  $controller->getAllPostes();
+            $collaborators =  $controller->getAllPostesWithCollaborators();
+
+
+            // /*
+            //Version avec le tableau final des données
+            $listPostes = [];
+            foreach($postes as $key => $poste)
+            {
+                array_push($listPostes, $poste);
+                // $listPostes['collaborators']= ;
+
+                $listPostes[$key]['collaborators'] = array();
+                $tempArrayCollaborators = [];
+
+                foreach($collaborators as $collaborator)
+                {
+                    if($collaborator['idPoste']==$poste['idPoste'])
+                    {
+                        array_push($tempArrayCollaborators,$collaborator);
+                    }
+                }
+                array_push($listPostes[$key]['collaborators'],$tempArrayCollaborators);
+            }
+            // */
+
+
             include('view/homeAdminView.php');
         }else
         {
@@ -79,20 +107,19 @@ class Controller
     {
         $controller = $this->initPosteController();
         $_SESSION['posteName'] = (isset($_POST['posteName']) ? $_POST['posteName'] : '');
-
-        $collaborators = $controller->getAllCollaborators();
+        $collaborators = $controller->getAllUnassignedCollaborators();
         include('view/posteCollaboratorView.php');
     }
 
     public function checkIfPosteAlreadyExists($posteName)
     {
-        // return $this->initPosteController()->checkIfPosteAlreadyExists($posteName);
-        return false;
+        return $this->initPosteController()->checkIfPosteAlreadyExists($posteName);
     }
 
     public function createPoste()
     {
         $controller = $this->initPosteController();
+        
         $controller->createPoste();
     }
 

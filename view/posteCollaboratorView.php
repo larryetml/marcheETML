@@ -16,8 +16,7 @@
         <h1>Créer un poste</h1>
 </div>
 <div class="row justify-content-center">
-<!-- Todo ajouter nom du poste dynamiquement -->
-        <h4>Mon poste 1</h4>
+        <h4><?php echo $_SESSION['posteName'] ?></h4>
 </div>
 <div class="scrolling-wrapper">
 <form action="index.php?page=poste" method="post" id="form_collaborators">

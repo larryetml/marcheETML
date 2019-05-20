@@ -97,7 +97,9 @@
                                     break;
                                 case 3:
                                     $mainController->createPoste();
-                                    $mainController->displayHome();
+                                    // header("Location: index.php?page=home");
+                                    // $mainController->displayHome();
+
                                     break;
                                 default:
                                     $mainController->displayPoste();

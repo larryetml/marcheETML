@@ -18,11 +18,17 @@
     </div>
     <div class="py-5 row justify-content-center">
 
-        <div class="card col-lg-8 no-padding mb-4">
+        <?php 
+        
+        /*
+        foreach($postes as $poste)
+        {
+            echo'
+            <div class="card col-lg-8 no-padding mb-4">
                 <div class="card-header">
                     <div class="row">
                         <div class="col text-left">
-                            <h5 class="modal-title">Poste 1</h5>
+                            <h5 class="modal-title">'.$poste['posName'].'</h5>
                         </div>
                         <div class="col text-right pt-1">
                             <a href="#"><i class="fas fa-pen" style="font-size:15px"></i></a>
@@ -31,31 +37,35 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col text-left">Patrick Dena</div>
-                            <div class="col text-right font-weight-bold">Informatique</div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col text-left">Raymond Jobin</div>
-                            <div class="col text-right font-weight-bold">Bois</div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col text-left">Louis Blais</div>
-                            <div class="col text-right font-weight-bold">Mécanique</div>
-                        </div>
-                    </li>
+
+                    ';
+                    foreach($collaborators as $collaborator)
+                    {
+                        if($collaborator['idPoste']==$poste['idPoste'])
+                        {
+                            echo'
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <div class="col text-left">'.$collaborator['colName'].' '.$collaborator['colLastname'].'</div>
+                                    <div class="col text-right font-weight-bold">'.$collaborator['secName'].'</div>
+                                </div>
+                            </li>';
+                        }
+                    }
+                    echo'
                 </ul>
             </div>
-        <div class="card col-lg-8 no-padding">
+            ';
+        }*/
+
+        foreach($listPostes as $poste)
+        {
+            echo'
+            <div class="card col-lg-8 no-padding mb-4">
                 <div class="card-header">
                     <div class="row">
                         <div class="col text-left">
-                            <h5 class="modal-title">Poste 2</h5>
+                            <h5 class="modal-title">'.$poste['posName'].'</h5>
                         </div>
                         <div class="col text-right pt-1">
                             <a href="#"><i class="fas fa-pen" style="font-size:15px"></i></a>
@@ -64,20 +74,33 @@
                     </div>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col text-left">John Doe</div>
-                            <div class="col text-right font-weight-bold">Informatique</div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col text-left">Marie Jeanne</div>
-                            <div class="col text-right font-weight-bold">Bois</div>
-                        </div>
-                    </li>
+
+                    ';
+
+                    foreach($poste['collaborators'] as $collaborators)
+                    {
+                        foreach($collaborators as $collaborator)
+                        {
+                                echo'
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col text-left">'.$collaborator['colName'].' '.$collaborator['colLastname'].'</div>
+                                        <div class="col text-right font-weight-bold">'.$collaborator['secName'].'</div>
+                                    </div>
+                                </li>';
+                        }
+                    }   
+
+                    echo'
                 </ul>
             </div>
+            ';
+
+        }
+        
+        
+        ?>
+
 
 
     </div>

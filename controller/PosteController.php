@@ -10,6 +10,11 @@ class PosteController extends Controller
     {
         return $this->model->getAllCollaborators();
     }
+
+    public function getAllUnassignedCollaborators()
+    {
+        return $this->model->getAllUnassignedCollaborators();
+    }
     
     public function createPoste()
     {
@@ -24,11 +29,26 @@ class PosteController extends Controller
         //sachant que posteName est unique
         if($assignedCollaborators)
         {
-            foreach($assignedCollaborators as $collaborator)
+
+            foreach($assignedCollaborators as $collaboratorId)
             {
-                $this->model->assignUserToPoste($collaborator, $posteName);
+                getPostIdByName
+                $result = $this->model->assignUserToPoste($collaboratorId, $posteName);
             }
         }
+    }
+
+    public function checkIfPosteAlreadyExists($posteName)
+    {
+            $result = $this->model->checkIfPosteAlreadyExists($posteName);
+            if($result)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+
     }
 }
 
