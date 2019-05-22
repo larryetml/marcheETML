@@ -93,34 +93,64 @@ class Controller
         }
     }
 
-    public function initPosteController()
+    public function displayPoste($action,$idPoste)
     {
         $controller = new PosteController();
-        return $controller;
+
+        //Si l'action est définie et que l'id du poste est bien un chiffre
+        if($action)
+        {
+            switch($action)
+            {
+                case 'create':
+                    $this->startPosteCreation();
+                    break;
+                case 'edit':
+                    $controller->editPoste($idPoste);
+                    break;
+                case 'delete':
+                    $controller->deletePosteFromId($idPoste);
+                    break;
+                default:
+                    $this->displayHome();
+                    break;
+            }
+        }else
+        {
+            $this->displayHome();
+        }
     }
 
-    public function displayPoste()
+    
+    public function startPosteCreation()
     {
-        include('view/posteView.php');
-    }
-    public function displayPosteCollaborator()
-    {
-        $controller = $this->initPosteController();
-        $_SESSION['posteName'] = (isset($_POST['posteName']) ? $_POST['posteName'] : '');
-        $collaborators = $controller->getAllUnassignedCollaborators();
-        include('view/posteCollaboratorView.php');
-    }
+        $controller = new PosteController();
 
-    public function checkIfPosteAlreadyExists($posteName)
-    {
-        return $this->initPosteController()->checkIfPosteAlreadyExists($posteName);
-    }
-
-    public function createPoste()
-    {
-        $controller = $this->initPosteController();
-        
-        $controller->createPoste();
+        $step = ((isset($_POST['step'])) ? $_POST['step'] : null);
+        switch($step)
+        {
+            case 2:
+                if($controller->checkIfPosteAlreadyExists($_POST['posteName']))
+                {
+                    $_SESSION['step'] = 1;
+                    unset($_SESSION['posteName']);
+                    header("Location: index.php?page=poste&action=create&error=1");
+                }else
+                {
+                    $_SESSION['posteName'] = (isset($_POST['posteName']) ? $_POST['posteName'] : '');
+                    $collaborators = $controller->getAllUnassignedCollaborators();
+                    include('view/posteCollaboratorView.php');
+                }
+                break;
+            case 3:
+                $controller->createPoste();
+                header("Location: index.php?page=home");
+                $controller->displayHome();
+                break;
+            default:
+            include('view/posteView.php');
+            break;
+        }
     }
 
     public function displayListStudents()
@@ -131,8 +161,9 @@ class Controller
         include('view/listStudentsView.php');
     }
 
-    public function displayDetails($idStudent)
+    public function displayDetails()
     {
+        $idStudent = $this->getId();
         $consts = $this->consts;
         $controller = new StudentsController();
         $student = $controller->getStudentById($idStudent);

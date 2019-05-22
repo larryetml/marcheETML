@@ -13,7 +13,7 @@
         <h4>Bienvenue <?php echo $adminName?></h4>
     </div>
     <div class="row justify-content-center">
-        <a class="btn btn-primary mx-1" href="index.php?page=poste" role="button">Créer un poste</a>
+        <a class="btn btn-primary mx-1" href="index.php?page=poste&action=create" role="button">Créer un poste</a>
         <a class="btn btn-primary mx-1" href="#" role="button">Envoyer les codes QR</a>
     </div>
     <div class="py-5 row justify-content-center">
@@ -68,8 +68,8 @@
                             <h5 class="modal-title">'.$poste['posName'].'</h5>
                         </div>
                         <div class="col text-right pt-1">
-                            <a href="#"><i class="fas fa-pen" style="font-size:15px"></i></a>
-                            <a href="#" class="ml-2"><i class="fas fa-times" style="font-size:18px"></i></a>
+                            <a href="index.php?page=poste&action=edit&n='.$poste['idPoste'].'"><i class="fas fa-pen" style="font-size:15px"></i></a>
+                            <a href="index.php?page=poste&action=delete&n='.$poste['idPoste'].'" class="ml-2"><i class="fas fa-trash-alt" style="font-size:18px"></i></a>
                         </div>
                     </div>
                 </div>

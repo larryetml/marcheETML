@@ -29,7 +29,7 @@
                     }
                 }
         ?>
-        <form action="index.php?page=poste" method="post">
+        <form action="index.php?page=poste&action=create" method="post">
             <div class="form-label-group mb-4">
                     <label for="posteName">Nom</label>
                     <input type="text" id="posteName" class="form-control" name="posteName" placeholder="Nom du poste" required>

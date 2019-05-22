@@ -38,7 +38,7 @@ class Database{
             $statement->execute();
             // $db->lastInsertId();
             $statement = null;
-            
+
         }catch(Exception $e) {
             error_log($e->getMessage());
         }
@@ -55,7 +55,6 @@ class Database{
             return $result;
         }catch(Exception $e) {
             error_log($e->getMessage());
-            return false;
         }
     }
 
@@ -73,7 +72,6 @@ class Database{
 
         }catch(Exception $e) {
             error_log($e->getMessage());
-            return false;
         }
     }
 }

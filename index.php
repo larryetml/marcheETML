@@ -64,7 +64,6 @@
                 {
                     switch($url)
                     {
-
                         case 'home':
                             $mainController->displayHome();
                             break;
@@ -75,40 +74,12 @@
                             $mainController->displayList();
                             break;
                         case 'details':
-                            $mainController->displayDetails($mainController->getId());
+                            $mainController->displayDetails();
                             break;
                         case 'poste':
-                            $step = ((isset($_POST['step'])) ? $_POST['step'] : '1');
-                            switch($step)
-                            {
-                                case 1:
-                                    $mainController->displayPoste();
-                                    break;
-                                case 2:
-                                    if($mainController->checkIfPosteAlreadyExists($_POST['posteName']))
-                                    {
-                                        $_SESSION['step'] = 1;
-                                        unset($_SESSION['posteName']);
-                                        header("Location: index.php?page=poste&error=1");
-                                    }else
-                                    {
-                                        $mainController->displayPosteCollaborator();
-                                    }
-                                    break;
-                                case 3:
-                                    $mainController->createPoste();
-                                    // header("Location: index.php?page=home");
-                                    // $mainController->displayHome();
-
-                                    break;
-                                default:
-                                    $mainController->displayPoste();
-                                    break;
-                            }
-                            echo 'POST';
-                            var_dump($_POST);
-                            echo 'SESSION';
-                            var_dump($_SESSION);
+                            $action = ((isset($_GET['action'])) ? $_GET['action'] : false);
+                            $idPoste = ((isset($_GET['n'])) ? $_GET['n'] : false);
+                            $mainController->displayPoste($action, $idPoste);
                             break;
                         case 'register';
                             $mainController->displayRegister();
