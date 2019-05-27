@@ -1,3 +1,10 @@
+/**
+* ETML
+* Auteur : Larry Lam
+* Date : 09.05.19
+* Description : Feuille de style globale du site Marche ETML
+*/
+
 td{
     vertical-align: middle!important;
 }
@@ -64,14 +71,10 @@ h1
 
 @media only screen and (max-width: 992px) {
     .scrolling-wrapper {
-        -webkit-overflow-scrolling: touch;
         overflow-x: scroll;
-        overflow-y: hidden;
-        height: auto;
         white-space:nowrap
     }
 }  
-
 
 .color-primary
 {
@@ -136,4 +139,12 @@ h1
 .checkbox label input[type="checkbox"]:disabled + .cr,
 .radio label input[type="radio"]:disabled + .cr {
     opacity: .5;
+}
+
+/* disabled */
+
+.custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::before
+{
+    background-color: #2B38E6;
+    border-color: #2B38E6;
 }

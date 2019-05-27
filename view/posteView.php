@@ -19,20 +19,23 @@
     <div class="col-sm-6">
     
         <?php
-                if(isset($_GET['error']))
+            // Si le paramètre GET 'error'est définit
+            if(isset($_GET['error']))
+            {
+              // Si le 'error' vaut 1, afficher un message d'erreur
+                if($_GET['error']== 1)
                 {
-                    if($_GET['error']== 1)
-                    {
-                        echo '<div class="alert alert-danger">
-                        Ce nom de poste est déjà utilisé
-                      </div>';
-                    }
+                    echo '<div class="alert alert-danger">
+                    Ce nom de poste est déjà utilisé
+                    </div>';
                 }
+            }
         ?>
         <form action="index.php?page=poste&action=create" method="post">
             <div class="form-label-group mb-4">
                     <label for="posteName">Nom</label>
                     <input type="text" id="posteName" class="form-control" name="posteName" placeholder="Nom du poste" required>
+                    <!-- Input caché pour passer à la prochaine étape-->
                     <input type="hidden" id="step" value="2" name="step">
             </div>
             <input type="submit" value="Continuer" class="btn btn-primary float-right">

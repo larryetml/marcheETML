@@ -13,15 +13,15 @@
                 <label for="email">Email</label>
                 <input type="text" id="email" name="email" class="form-control" placeholder="Email" required autofocus autocomplete="off">
               </div>
-
               <div class="form-label-group mb-4">
                 <label for="password">Mot de passe</label>
                 <input type="password" id="password" name="password" class="form-control" placeholder="Mot de passe" required>
               </div>
-
               <?php
+                // Si le paramètre GET 'error'est définit
                 if(isset($_GET['error']))
                 {
+                    // Si le paramètre GET error vaut 1, afficher un message d'erreur
                     if($_GET['error']== '1')
                     {
                         echo '<div class="alert alert-danger">
@@ -31,7 +31,7 @@
                 }
               ?>
             
-              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Se connecter</button>
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Se connecter</button>
             </form>
           </div>
         </div>

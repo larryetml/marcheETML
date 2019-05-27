@@ -1,4 +1,10 @@
 <?php
+/**
+ * ETML
+ * Auteur : Larry Lam
+ * Date : 13.05.19
+ * Description : Contrôleur qui gère l'authentification des utilisateurs
+ */
 require_once('Controller.php');
 class LoginController extends Controller
 {
@@ -13,7 +19,7 @@ class LoginController extends Controller
     {
         //Récupère l'utilisateur grâce à son email
         $user = $this->model->getUserByEmail(strtolower($email));
-        //S'il y en a un
+        //Si l'utilisateur existe
         if($user)
         {
             //Effectue la vérification du mot de passe (crypté en Bcrypt)
@@ -25,8 +31,10 @@ class LoginController extends Controller
                 $_SESSION['user']['colName'] = $user['colName'];
                 $_SESSION['user']['useIsAdmin'] = $user['useIsAdmin'];
                 $_SESSION['user']['fkPoste'] = $user['fkPoste'];
-                //redigier sur la page principale
+
+                //Rediriger sur la page principale
                 header("Location: index.php");
+                return;
             }
         }
         //Sinon retourner sur la page login avec un message d'erreur

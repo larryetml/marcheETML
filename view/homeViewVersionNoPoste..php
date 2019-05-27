@@ -12,10 +12,20 @@
             <h1>Vue d'ensemble</h1>
         </div>
     </div>
-    <div class="row text-center mb-5">
+    <div class="row text-center mb">
         <div class="col">
             <!-- Affiche le nom de l'utilisateur ainsi que son poste assigné -->
             <h4>Bienvenue <?php echo $userName?></h4>
+        </div>
+    </div>
+    <?php
+
+    if($poste)
+    {
+        echo'
+    <div class="row text-center mb-5">
+        <div class="col">
+            <!-- Affiche le nom du poste assigné -->
             <h5>Vous êtes assigné au poste : <?php echo $posteName?></h5>
         </div>
     </div>
@@ -29,20 +39,31 @@
                         </div>
                     </div>
                 </div>
-                <ul class="list-group list-group-flush">
-                <?php 
+                <ul class="list-group list-group-flush">';
                 // Parcourt tous les collaborateurs également assigné au poste
                 foreach($collaborators as $collaborator)
                 {
-                    echo '<li class="list-group-item">
-                    <div class="row">
-                        <div class="col text-left">'.$collaborator['colName'].' '.$collaborator['colLastname'].'</div>
-                        <div class="col text-right font-weight-bold">'.$collaborator['secName'].'</div>
-                    </div>
-                </li>';
+                    echo '
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col text-left">'.$collaborator['colName'].' '.$collaborator['colLastname'].'</div>
+                            <div class="col text-right font-weight-bold">'.$collaborator['secName'].'</div>
+                        </div>
+                    </li>';
                 }
-                ?>
+                echo'
                 </ul>
             </div>
-    </div>
+    </div>';
+    }else
+    {
+        echo'
+        <div class="row text-center mb-5">
+            <div class="col">
+                <h5>Vous n\'êtes assigné à aucun poste</h5>
+            </div>
+        </div>
+        ';
+    }
+    ?>
 </div>

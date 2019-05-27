@@ -2,7 +2,7 @@
     ETML
     Auteur : Larry Lam
     Date : 22.05.19
-    Description : Première vue lors de la création d'un poste, contient un formulaire pour le nom de ce dernier
+    Description : Vue pour modifier un poste, le nom peut être changé et les collaborators peuvent être assignés / retirés
 -->
 <div class="row mb-3 mt-5">
     <a href="index.php" class="link-back">
@@ -11,17 +11,32 @@
 </div>
 
 <div class="row justify-content-center mb-5">
+        <!-- Nom du poste -->
         <h1>Modifier <?php echo $poste['posName']?></h1>
 </div>
 
 <div class="scrolling-wrapper">
-<form action="index.php?page=poste&action=edit&n=<?php echo($poste['idPoste'])?>" method="post" id="formEditPoste">
-<div class="row justify-content-center mb-5">
+<!-- L'action envoi vers la page edit suivi de l'id du poste -->
+<form action="index.php?page=poste&action=edit&id=<?php echo($poste['idPoste'])?>" method="post" id="formEditPoste">
+<div class="row justify-content-center mb-4">
     <div class="col-sm-6">
-            <div class="form-label-group mb-4">
-                    <label for="posteName">Nom</label>
-                    <input type="text" id="posteName" class="form-control" name="posteName" value="<?php echo $poste['posName']?>" form="formEditPoste" required>
-            </div>
+    <?php
+        // Si le paramètre GET 'error'est définit
+        if(isset($_GET['error']))
+        {
+            // Si le 'error' vaut 1, afficher un message d'erreur
+            if($_GET['error']== 1)
+            {
+                echo '<div class="alert alert-danger">
+                Ce nom de poste est déjà utilisé
+                </div>';
+            }
+        }
+    ?>
+    <div class="form-label-group mb-4">
+            <label for="posteName">Nom</label>
+            <input type="text" id="posteName" class="form-control" name="posteName" value="<?php echo $poste['posName']?>" form="formEditPoste" required>
+    </div>
     </div>
 </div>
 <table id="tableCollaborators" class="table table-striped table-bordered" style="width:100%">
@@ -37,13 +52,9 @@
         <tbody>
 
         <?php 
-
-        // var_dump($collaborators);
-        echo('<pre>');
-
+        // Affiche tous les collaborateurs disponibles
         foreach($collaborators as $collaborator)
         {
-
             echo'
                 <tr>
                     <td>'.$collaborator['colName'].'</td>
@@ -77,8 +88,9 @@
             </tr>
         </tfoot>
     </table>
+        <!-- Input caché pour savoir qu'on passe à l'étape 2 -->
         <input type="hidden" id="step" value="2" name="step" form="formEditPoste">
-        <input type="submit" value="Terminer" form="formEditPoste" class="btn btn-primary float-right my-5">
+        <input type="submit" value="Terminer" form="formEditPoste" class="btn btn-primary float-right my-4">
     </form>
 
 </div>

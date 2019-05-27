@@ -1,4 +1,12 @@
 <?php
+/**
+ * ETML
+ * Auteur : Larry Lam
+ * Date : 16.05.19
+ * Description : Contrôleur qui gère tout ce qui est en lien avec les postes.
+ * La création, modification, supression et l'affichage.
+ * Les collaborateurs
+ */
 require_once('Controller.php');
 class PosteController extends Controller
 {
@@ -6,6 +14,20 @@ class PosteController extends Controller
         parent::__construct();
     }
 
+    public function getPosteById($idPoste)
+    {
+        return parent::getPosteById($idPoste);
+    }
+
+    public function getAllAssignedCollaboratorsByPosteId($id)
+    {
+        return $this->model->getAllAssignedCollaboratorsByPosteId($id);
+    }
+    public function getAllPostesWithCollaborators()
+    {
+        return $this->model->getAllPostesWithCollaborators();
+    }
+    
     public function getAllCollaborators()
     {
         return $this->model->getAllCollaborators();
@@ -33,9 +55,8 @@ class PosteController extends Controller
         return $allUnassignedCollaborators;
     }
     
-    public function createPoste()
+    public function createPoste($assignedCollaborators)
     {
-        $assignedCollaborators = (isset($_POST['assignedCollaborators']) ? $_POST['assignedCollaborators'] : false);
         $posteName = $_SESSION['posteName'];
         $this->model->createPoste($posteName);
 
@@ -52,14 +73,16 @@ class PosteController extends Controller
             //sachant que posteName est unique
             foreach($assignedCollaborators as $collaboratorId)
             {
-
-                $collaborator = $this->model->getUserFromCollaboratorId($collaboratorId);
-                if($collaborator)
+                $user = $this->model->getUserFromCollaboratorId($collaboratorId);
+                if($user)
                 {
-                    $this->model->assignUserToPoste($collaborator['idUser'], $idPoste);
+                    $this->model->assignUserToPoste($user['idUser'], $idPoste);
                 }else
                 {
-                    $this->model->createUser($collaboratorId, $idPoste);
+                    $collaborator =  $this->model->getCollaboratorById($collaboratorId)[0];
+                    $clearPasword = strtolower(substr($collaborator['colLastname'], 0, 8).substr($collaborator['colName'], 0, 2));
+                    $cryptedPassword = password_hash($clearPasword, PASSWORD_BCRYPT);
+                    $this->model->createUser($collaboratorId, $idPoste, $cryptedPassword);
                 }
 
             }
@@ -80,7 +103,7 @@ class PosteController extends Controller
     }
     public function editPoste($idPoste)
     {
-        $poste = $this->model->getPosteById($idPoste);
+        $poste = $this->getPosteById($idPoste);
         
         if($poste)
         {
@@ -89,29 +112,50 @@ class PosteController extends Controller
             switch($step)
             {
                 case 2:
-                $posteName = ((isset($_POST['posteName'])) ? $_POST['posteName'] : '');
-                $assignedCollaborators = ((isset($_POST['assignedCollaborators'])) ? $_POST['assignedCollaborators'] : '');
-                $idPoste = $this->model->getPosteFromName($posteName)[0];
-                $this->model->updatePosteNameFromId($idPoste,$posteName);
-                $this->assignUsers($assignedCollaborators, $posteName);
-                    break;
-                    
-                default:
-                $collaborators = $this->model->getAllCollaborators();
-                $assignedCollaborators = $this->model->getAllAssignedCollaboratorsByPosteId($idPoste);
-                foreach($collaborators as $index=>$collaborator)
-                {
-                    $collaborators[$index]['isAssigned']=false;
-                    foreach($assignedCollaborators as $assignedCollaborator)
+                    $posteName = ((isset($_POST['posteName'])) ? $_POST['posteName'] : '');
+                    $assignedCollaborators = ((isset($_POST['assignedCollaborators'])) ? $_POST['assignedCollaborators'] : '');
+
+                    //Retirer tous les collaborateurs assignés à ce poste
+                    $this->model->unassignPosteFromAllUsers($idPoste);
+                    //Puis assigner les collaborateurs cochés au poste
+                    $this->assignUsers($assignedCollaborators, $idPoste);   
+                    //Supprimer les utilisateurs qui ont été retirés
+                    $this->model->deleteAllUnassigedAccounts();
+
+                    //Si le nom a été modifié
+                    if($poste['posName'] != $posteName)
                     {
-                        if($collaborator['idCollaborator'] == $assignedCollaborator['idCollaborator'])
+                        //Vérifie si le nom est déjà pris
+                        if($this->checkIfPosteAlreadyExists($posteName))
                         {
-                            $collaborators[$index]['isAssigned']=true;
+                            header('Location: index.php?page=poste&action=edit&id='.$idPoste.'&error=1');
+                            return;
+                        }else //Modifie le nom
+                        {   
+                            $this->model->updatePosteNameFromId($idPoste,$posteName);                 
                         }
                     }
-    
-                }
-                include('view/editPosteView.php');
+                    header("Location: index.php?page=home");
+                    break;                    
+                default:
+                    $collaborators = $this->getAllUnassignedCollaborators();
+                    $assignedCollaborators = $this->getAllAssignedCollaboratorsByPosteId($idPoste);
+                    foreach($assignedCollaborators as $assignedCollaborator)
+                    {   
+                        array_push($collaborators, $assignedCollaborator);
+                    }
+                    foreach($collaborators as $index=>$collaborator)
+                    {
+                        $collaborators[$index]['isAssigned']=false;
+                        foreach($assignedCollaborators as $assignedCollaborator)
+                        {
+                            if($collaborator['idCollaborator'] == $assignedCollaborator['idCollaborator'])
+                            {
+                                $collaborators[$index]['isAssigned']=true;
+                            }
+                        }
+                    }
+                    include('view/editPosteView.php');
                     break;
             }
         }else
@@ -120,15 +164,22 @@ class PosteController extends Controller
         }
     }
 
-
-
+    public function validatePostePassageFromIdStudent($idStudent,$idPoste)
+    {
+        $this->model->validatePostePassageFromIdStudent($idStudent,$idPoste);
+    }
+    public function removePostePassageFromIdStudent($idStudent,$idPoste)
+    {
+        $this->model->removePostePassageFromIdStudent($idStudent,$idPoste);
+    }
     public function deletePosteFromId($idPoste)
     {
-
         if(is_numeric($idPoste))
         {
             $this->model->unassignPosteFromAllUsers($idPoste);
+            $this->model->deletePassedPosteFromId($idPoste);
             $this->model->deletePosteFromId($idPoste);
+            $this->model->deleteAllUnassigedAccounts();
         }
         header("Location: index.php?page=home");
     }

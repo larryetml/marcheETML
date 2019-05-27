@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * ETML
+ * Auteur : Larry Lam
+ * Date : 09.05.19
+ * Description : Contrôleur qui gère la création, modification, supression et l'affichage des postes et des collaborateurs concernés
+ * Code inspiré de : https://github.com/DavideArgellati/php-mvc-example/blob/master/libs/Database.php
+ */
 class Database{
 
     protected $db;
@@ -25,7 +31,7 @@ class Database{
                 return ($database);            
             }
         catch(PDOException $e) {
-                echo "Connection failed: " . $e->getMessage();
+                echo "La connexion à la base de donnée est impossible, erreur : " . $e->getMessage();
             }
     }
 
